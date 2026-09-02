@@ -451,3 +451,45 @@ export function regionSummaries(groups) {
 export function overallSummary(groups) {
   return { ...summarise(groups), countryCount: new Set(groups.map((g) => g.country)).size };
 }
+
+// ---------------------------------------------------------------------------
+// Placeholder "what this group needs" hints
+// ---------------------------------------------------------------------------
+
+// PLACEHOLDER (Interpretation notes): these are illustrative rules over the
+// fields already on the group. They are not researched or sourced content and
+// the UI labels them as such. Replace with real content when available.
+// Returns a non-empty array of { title, why }.
+export function needsHints(group) {
+  const hints = [];
+  switch (group.bibleStatus) {
+    case 'None':
+      hints.push({ title: 'Scripture translation', why: 'No part of the Bible exists in their language.' });
+      break;
+    case 'Portions':
+      hints.push({ title: 'Complete the New Testament', why: 'Only portions of Scripture exist in their language.' });
+      break;
+    case 'New Testament':
+      hints.push({ title: 'Full Bible translation', why: 'The New Testament exists but the Old Testament does not.' });
+      break;
+    case 'Unknown':
+      hints.push({ title: 'Confirm Scripture availability', why: 'Bible status for this group is not recorded.' });
+      break;
+    default:
+      break;
+  }
+  if (group.evangelicalPercent !== null && group.evangelicalPercent < 0.5) {
+    hints.push({ title: 'Pioneer church planting', why: `Fewer than 1 in 200 are evangelical (${group.evangelicalPercent.toFixed(2)}%).` });
+  }
+  if (group.populationBracket === '1M+') {
+    hints.push({ title: 'Multiple teams', why: `Large population (${group.population.toLocaleString('en-US')}); one team cannot reach them all.` });
+  }
+  if (group.population === null) {
+    hints.push({ title: 'Research', why: 'Population is unknown; the size of the task is unclear.' });
+  }
+  if (group.languages.length > 1) {
+    hints.push({ title: 'Resources in each language', why: `They use ${group.languages.join(' and ')}.` });
+  }
+  hints.push({ title: 'Prayer', why: 'Every group on this list is unreached.' });
+  return hints;
+}

@@ -1,23 +1,82 @@
-/* Three-column layout: filters | results | shortlist. Plain CSS, no library. */
+/* Layout: a top bar with tabs, then either a single centred column (overview,
+   shortlist, detail) or a two-column filters | results layout (groups).
+   Plain CSS, no library. */
 
-.layout {
-  display: grid;
-  grid-template-columns: 260px minmax(0, 1fr) 280px;
-  gap: 1.5rem;
-  padding: 1.5rem;
+.page {
   max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 2rem;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.tab {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  color: #444;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tab:hover {
+  background: #e9e9e9;
+}
+
+.tab[aria-selected='true'] {
+  background: #fff;
+  border-color: #ccc;
+  color: #111;
+}
+
+.tab-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #e3ecf7;
+  color: #1a5fb4;
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+}
+
+.layout-single {
+  max-width: 1000px;
   margin: 0 auto;
 }
 
-@media (max-width: 1000px) {
-  .layout {
+.layout-groups {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .layout-groups {
     grid-template-columns: 1fr;
   }
 }
 
 h1 {
   font-size: 1.3rem;
-  margin: 0 0 1rem;
+  margin: 0;
 }
 
 h2 {
@@ -34,6 +93,10 @@ h3 {
   color: #666;
   font-size: 0.9rem;
   margin: 0;
+}
+
+.small {
+  font-size: 0.78rem;
 }
 
 /* Sidebar: search + facets */
@@ -70,6 +133,12 @@ h3 {
   font-size: 0.85rem;
   margin-bottom: 0.3rem;
   padding: 0;
+}
+
+/* Long facets (country has 38 options) scroll inside the sidebar. */
+.facet-options {
+  max-height: 220px;
+  overflow-y: auto;
 }
 
 .facet-option {
@@ -157,7 +226,8 @@ h3 {
   color: #444;
 }
 
-.merged-list code {
+.merged-list code,
+.detail code {
   font-size: 0.8rem;
   background: #f3f3f3;
   padding: 0 0.25rem;
@@ -198,21 +268,26 @@ h3 {
   padding: 0;
   margin-bottom: 1rem;
   text-decoration: underline;
+  white-space: normal;
 }
 
-/* Shortlist panel */
-
-.shortlist {
-  position: sticky;
-  top: 1.5rem;
-  align-self: start;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 0.9rem 1rem;
-  background: #fafafa;
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: #1a5fb4;
+  cursor: pointer;
+  text-align: left;
 }
 
-.shortlist ul {
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+/* Shortlist tab */
+
+.shortlist-rows {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -221,19 +296,66 @@ h3 {
   gap: 0.5rem;
 }
 
-.shortlist li {
+.shortlist-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+  gap: 1rem;
 }
 
-/* Long facets (country has 38 options) scroll inside the sidebar. */
+.shortlist-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
 
-.facet-options {
-  max-height: 220px;
-  overflow-y: auto;
+/* Group detail page */
+
+.detail {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.detail-title {
+  font-size: 1.4rem;
+  margin: 0 0 0.25rem;
+}
+
+.detail-facts {
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+.placeholder-box {
+  margin-top: 1.25rem;
+  padding: 0.9rem 1rem;
+  border: 2px dashed #f0c674;
+  border-radius: 6px;
+  background: #fffaf0;
+}
+
+.placeholder-box h3 {
+  margin: 0 0 0.25rem;
+}
+
+.placeholder-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #7a4a00;
+  margin: 0 0 0.6rem;
+}
+
+.needs-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.92rem;
+}
+
+.needs-list li {
+  margin-bottom: 0.3rem;
 }
 
 /* Overview: tiles, region blocks, country table, bars */
@@ -332,20 +454,6 @@ h3 {
   font-weight: 700;
 }
 
-.link-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-  color: #1a5fb4;
-  cursor: pointer;
-  text-align: left;
-}
-
-.link-btn:hover {
-  text-decoration: underline;
-}
-
 .country-table {
   width: 100%;
   border-collapse: collapse;
@@ -408,10 +516,6 @@ h3 {
 
 .bible-seg {
   height: 100%;
-}
-
-.small {
-  font-size: 0.78rem;
 }
 
 @media (max-width: 700px) {

@@ -47,6 +47,10 @@ half-finished. Do not add features that are not listed under SCOPE.
    count, known population, bible-status breakdown and average evangelical %.
    Clicking a country or region filters the list. Adds `country` as a filter
    dimension. Hidden whenever any filter or search is active.
+9. (Added after the challenge, by the owner) Three tabs: Overview, Groups (search,
+   filters, list) and Shortlist, tracked in the URL as `view=`. Clicking a group opens
+   a full detail page (`group=<id>` in the URL) with every fact, the merge sources and
+   a clearly labelled PLACEHOLDER "What this group needs" section.
 
 ## Data file
 
@@ -140,6 +144,9 @@ If a region value is not in this table, keep it as-is and log a warning; do not 
   are counted and displayed separately ("N of M unknown"), never summed as 0.
 - Overview evangelical % is an unweighted mean over groups that have a value. It is
   not population-weighted, because 39 groups have no population figure.
+- The "What this group needs" hints are illustrative rules over fields already on the
+  record (bible status, evangelical %, population, languages). They are a placeholder,
+  labelled as unverified in the UI, and are not sourced content.
 
 ## CORRECTNESS TABLE (from A_Check_Answers — counts are over merged groups unless stated)
 

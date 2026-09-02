@@ -15,6 +15,7 @@ import {
   facetCounts,
   countrySummaries,
   regionSummaries,
+  needsHints,
   REGIONS,
 } from '../src/lib/data.js';
 
@@ -117,6 +118,7 @@ const sanity = [
   { name: 'Country summaries: bible status None adds up to case 13', expected: 36, actual: sum(countries, (c) => c.bibleStatusCounts.None) },
   { name: 'Country summaries: every region is a canonical region', expected: countries.length, actual: countries.filter((c) => REGIONS.includes(c.region)).length },
   { name: 'Country summaries: known population equals sum over groups', expected: sum(groups.filter((g) => g.population !== null), (g) => g.population), actual: sum(countries, (c) => c.knownPopulation) },
+  { name: 'Placeholder needs hints: every group has at least one', expected: groups.length, actual: groups.filter((g) => needsHints(g).length > 0).length },
 ];
 console.log('\nOVERVIEW SANITY (summaries must add back up to the table above)\n');
 console.log(`${pad('Check', 62)} ${pad('Expected', 12)} ${pad('Actual', 12)} Result`);

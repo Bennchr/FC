@@ -1,5 +1,5 @@
-// The whole UI: filters + search on the left, group list in the middle,
-// shortlist on the right. All data logic comes from src/lib/data.js; this file
+// The whole UI: a tab bar (Overview / Groups / Shortlist) and, when a group is
+// selected, a detail page. All data logic comes from src/lib/data.js; this file
 // only renders and keeps the view state in the URL query string.
 import { useEffect, useMemo, useState } from 'react';
 import csvText from '../data/people_groups.csv?raw';
@@ -14,6 +14,7 @@ import {
   BRACKETS,
 } from './lib/data.js';
 import Overview from './Overview.jsx';
+import GroupDetail from './GroupDetail.jsx';
 import './App.css';
 
 // Parsed once at module load. RULE: all cleaning happens in code at load time.
@@ -33,10 +34,13 @@ const DIMENSION_LABELS = {
 // sorted alphabetically from the data.
 const FIXED_ORDER = { region: REGIONS, bracket: BRACKETS };
 
+const VIEWS = ['overview', 'groups', 'shortlist'];
+
 // ---------------------------------------------------------------------------
-// URL <-> state. Query keys: q (search), one key per filter dimension
-// (repeated, e.g. ?region=South+Asia&region=East+Asia), and shortlist
-// (comma-separated group ids). Pasting the URL reproduces the exact view.
+// URL <-> state. Query keys: view (overview|groups|shortlist; absent =
+// overview), group (id of the group whose detail page is open), q (search),
+// one key per filter dimension (repeated), and shortlist (comma-separated ids).
+// Pasting the URL reproduces the exact view.
 // ---------------------------------------------------------------------------
 
 function readStateFromUrl() {
@@ -44,11 +48,14 @@ function readStateFromUrl() {
   const filters = emptyFilters();
   for (const dim of FILTER_DIMENSIONS) filters[dim] = params.getAll(dim);
   const shortlist = (params.get('shortlist') ?? '').split(',').filter(Boolean);
-  return { query: params.get('q') ?? '', filters, shortlist };
+  const view = VIEWS.includes(params.get('view')) ? params.get('view') : 'overview';
+  return { view, group: params.get('group') ?? '', query: params.get('q') ?? '', filters, shortlist };
 }
 
-function writeStateToUrl({ query, filters, shortlist }) {
+function writeStateToUrl({ view, group, query, filters, shortlist }) {
   const params = new URLSearchParams();
+  if (view !== 'overview') params.set('view', view);
+  if (group) params.set('group', group);
   if (query) params.set('q', query);
   for (const dim of FILTER_DIMENSIONS) for (const v of filters[dim]) params.append(dim, v);
   if (shortlist.length) params.set('shortlist', shortlist.join(','));
@@ -96,14 +103,16 @@ function FacetGroup({ dim, options, counts, selected, onToggle }) {
   );
 }
 
-function GroupCard({ group, inShortlist, onToggleShortlist }) {
+function GroupCard({ group, inShortlist, onToggleShortlist, onOpen }) {
   const mergedCount = group.mergedFrom.length;
   return (
     <li className="card">
       <div className="card-head">
         <div>
           <h3>
-            {displayName(group.name)}
+            <button type="button" className="link-btn" onClick={() => onOpen(group.id)}>
+              {displayName(group.name)}
+            </button>
             {/* RULE: surface the merge in the interface */}
             {mergedCount > 1 && (
               <span className="badge" title="This group was formed from duplicate rows">
@@ -126,7 +135,8 @@ function GroupCard({ group, inShortlist, onToggleShortlist }) {
       <dl className="facts">
         <dt>Population</dt>
         <dd>
-          {formatPopulation(group)} <span className="muted">({group.populationBracket})</span>
+          {formatPopulation(group)}
+          {group.population !== null && <span className="muted"> ({group.populationBracket})</span>}
         </dd>
         <dt>Languages</dt>
         <dd>{group.languages.join(', ') || '—'}</dd>
@@ -150,9 +160,39 @@ function GroupCard({ group, inShortlist, onToggleShortlist }) {
   );
 }
 
+function ShortlistView({ shortlisted, onOpen, onRemove }) {
+  if (shortlisted.length === 0) {
+    return (
+      <p className="muted">
+        Your shortlist is empty. Open the Groups tab and click “Add to shortlist”. The shortlist is
+        saved in the page address, so copy the address bar to share it.
+      </p>
+    );
+  }
+  return (
+    <ul className="shortlist-rows">
+      {shortlisted.map((g) => (
+        <li key={g.id} className="card shortlist-row">
+          <div>
+            <button type="button" className="link-btn shortlist-name" onClick={() => onOpen(g.id)}>
+              {displayName(g.name)}
+            </button>
+            <div className="muted">
+              {g.country} · {g.region} · Bible: {g.bibleStatus} · Population: {formatPopulation(g)}
+            </div>
+          </div>
+          <button type="button" className="btn btn-small" onClick={() => onRemove(g.id)}>
+            Remove
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function App() {
   const [state, setState] = useState(readStateFromUrl);
-  const { query, filters, shortlist } = state;
+  const { view, group: groupId, query, filters, shortlist } = state;
 
   // Keep the URL in sync with state, and state in sync with back/forward.
   useEffect(() => writeStateToUrl(state), [state]);
@@ -176,9 +216,8 @@ export default function App() {
     return out;
   }, []);
 
-  const shortlisted = shortlist
-    .map((id) => groups.find((g) => g.id === id))
-    .filter(Boolean);
+  const shortlisted = shortlist.map((id) => groups.find((g) => g.id === id)).filter(Boolean);
+  const openGroup = groupId ? groups.find((g) => g.id === groupId) : null;
 
   function toggleFilter(dim, value) {
     setState((s) => {
@@ -203,100 +242,138 @@ export default function App() {
     setState((s) => ({ ...s, query: '', filters: emptyFilters() }));
   }
 
-  // Overview drill-down: replace the current view with a single-value filter.
+  // Overview drill-down: jump to the Groups tab with a single-value filter.
   function pickOnly(dim, value) {
-    setState((s) => ({ ...s, query: '', filters: { ...emptyFilters(), [dim]: [value] } }));
+    setState((s) => ({
+      ...s,
+      view: 'groups',
+      group: '',
+      query: '',
+      filters: { ...emptyFilters(), [dim]: [value] },
+    }));
+  }
+
+  function switchView(next) {
+    setState((s) => ({ ...s, view: next, group: '' }));
+  }
+
+  function openDetail(id) {
+    setState((s) => ({ ...s, group: id }));
+  }
+
+  function closeDetail() {
+    setState((s) => ({ ...s, group: '' }));
   }
 
   const anyFilter = query !== '' || FILTER_DIMENSIONS.some((d) => filters[d].length > 0);
 
   // Friendlier results heading when exactly one country or region is selected.
+  const onlyDim = (dim) =>
+    filters[dim].length === 1 && !query && FILTER_DIMENSIONS.every((d) => d === dim || filters[d].length === 0);
   let heading = `Showing ${visible.length} of ${groups.length} groups`;
-  if (filters.country.length === 1 && FILTER_DIMENSIONS.every((d) => d === 'country' || filters[d].length === 0) && !query) {
-    heading = `Showing ${visible.length} groups in ${filters.country[0]}`;
-  } else if (filters.region.length === 1 && FILTER_DIMENSIONS.every((d) => d === 'region' || filters[d].length === 0) && !query) {
-    heading = `Showing ${visible.length} groups in ${filters.region[0]}`;
-  }
+  if (onlyDim('country')) heading = `Showing ${visible.length} groups in ${filters.country[0]}`;
+  else if (onlyDim('region')) heading = `Showing ${visible.length} groups in ${filters.region[0]}`;
+
+  const backLabel = view === 'shortlist' ? 'Back to shortlist' : view === 'groups' ? 'Back to groups' : 'Back to overview';
 
   return (
-    <div className="layout">
-      <aside className="sidebar">
+    <div className="page">
+      <header className="topbar">
         <h1>People Group Browser</h1>
-        <label className="search">
-          <span>Search by name</span>
-          <input
-            type="search"
-            value={query}
-            placeholder="e.g. uyghur, hmong"
-            onChange={(e) => setState((s) => ({ ...s, query: e.target.value }))}
-          />
-        </label>
-        {anyFilter && (
-          <button type="button" className="btn btn-link" onClick={clearFilters}>
-            Clear search and filters
+        <nav className="tabs" aria-label="Sections">
+          <button type="button" role="tab" className="tab" aria-selected={view === 'overview'} onClick={() => switchView('overview')}>
+            Overview
           </button>
-        )}
-        {FILTER_DIMENSIONS.map((dim) => (
-          <FacetGroup
-            key={dim}
-            dim={dim}
-            options={options[dim]}
-            counts={counts[dim]}
-            selected={filters[dim]}
-            onToggle={toggleFilter}
-          />
-        ))}
-      </aside>
+          <button type="button" role="tab" className="tab" aria-selected={view === 'groups'} onClick={() => switchView('groups')}>
+            Groups
+            {anyFilter && <span className="tab-badge">{visible.length} shown</span>}
+          </button>
+          <button type="button" role="tab" className="tab" aria-selected={view === 'shortlist'} onClick={() => switchView('shortlist')}>
+            Shortlist
+            <span className="tab-badge">{shortlisted.length}</span>
+          </button>
+        </nav>
+      </header>
 
-      <main className="results">
-        {anyFilter ? (
-          <button type="button" className="btn btn-link" onClick={clearFilters}>
-            ← Back to overview
+      {openGroup ? (
+        <div className="layout-single">
+          <GroupDetail
+            group={openGroup}
+            backLabel={backLabel}
+            onBack={closeDetail}
+            inShortlist={shortlist.includes(openGroup.id)}
+            onToggleShortlist={toggleShortlist}
+          />
+        </div>
+      ) : groupId ? (
+        <div className="layout-single">
+          <button type="button" className="btn btn-link" onClick={closeDetail}>
+            ← {backLabel}
           </button>
-        ) : (
+          <p className="muted">No group with id “{groupId}”.</p>
+        </div>
+      ) : view === 'overview' ? (
+        <div className="layout-single">
           <Overview
             groups={groups}
             onPickCountry={(c) => pickOnly('country', c)}
             onPickRegion={(r) => pickOnly('region', r)}
           />
-        )}
-        <p className="summary">{heading}</p>
-        {visible.length === 0 ? (
-          <p className="muted">No groups match. Try clearing a filter.</p>
-        ) : (
-          <ul className="cards">
-            {visible.map((g) => (
-              <GroupCard
-                key={g.id}
-                group={g}
-                inShortlist={shortlist.includes(g.id)}
-                onToggleShortlist={toggleShortlist}
+        </div>
+      ) : view === 'shortlist' ? (
+        <div className="layout-single">
+          <h2>Shortlist ({shortlisted.length})</h2>
+          <ShortlistView shortlisted={shortlisted} onOpen={openDetail} onRemove={toggleShortlist} />
+        </div>
+      ) : (
+        <div className="layout-groups">
+          <aside className="sidebar">
+            <label className="search">
+              <span>Search by name</span>
+              <input
+                type="search"
+                value={query}
+                placeholder="e.g. uyghur, hmong"
+                onChange={(e) => setState((s) => ({ ...s, query: e.target.value }))}
+              />
+            </label>
+            {anyFilter && (
+              <button type="button" className="btn btn-link" onClick={clearFilters}>
+                Clear search and filters
+              </button>
+            )}
+            {FILTER_DIMENSIONS.map((dim) => (
+              <FacetGroup
+                key={dim}
+                dim={dim}
+                options={options[dim]}
+                counts={counts[dim]}
+                selected={filters[dim]}
+                onToggle={toggleFilter}
               />
             ))}
-          </ul>
-        )}
-      </main>
+          </aside>
 
-      <aside className="shortlist">
-        <h2>Shortlist ({shortlisted.length})</h2>
-        {shortlisted.length === 0 ? (
-          <p className="muted">Add groups from the list. The shortlist is saved in the URL, so copy the address bar to share it.</p>
-        ) : (
-          <ul>
-            {shortlisted.map((g) => (
-              <li key={g.id}>
-                <div>
-                  <strong>{displayName(g.name)}</strong>
-                  <div className="muted">{g.country}</div>
-                </div>
-                <button type="button" className="btn btn-small" onClick={() => toggleShortlist(g.id)}>
-                  Remove
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </aside>
+          <main className="results">
+            <p className="summary">{heading}</p>
+            {visible.length === 0 ? (
+              <p className="muted">No groups match. Try clearing a filter.</p>
+            ) : (
+              <ul className="cards">
+                {visible.map((g) => (
+                  <GroupCard
+                    key={g.id}
+                    group={g}
+                    inShortlist={shortlist.includes(g.id)}
+                    onToggleShortlist={toggleShortlist}
+                    onOpen={openDetail}
+                  />
+                ))}
+              </ul>
+            )}
+          </main>
+        </div>
+      )}
     </div>
   );
 }
