@@ -13,6 +13,9 @@ import {
   applyFilters,
   emptyFilters,
   facetCounts,
+  countrySummaries,
+  regionSummaries,
+  REGIONS,
 } from '../src/lib/data.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -100,6 +103,29 @@ for (const [region, expected] of Object.entries(facetExpected)) {
     });
   }
   console.log(`${pad(region, 30)} ${pad(expected, 9)} ${pad(actual, 7)} ${ok ? 'PASS' : 'FAIL'}`);
+}
+
+// Overview sanity: the per-country and per-region summaries must add back up
+// to figures the table above already checks. No new expected numbers here.
+const countries = countrySummaries(groups);
+const regions = regionSummaries(groups);
+const sum = (arr, f) => arr.reduce((acc, x) => acc + f(x), 0);
+const sanity = [
+  { name: 'Country summaries: group counts add up to total groups', expected: groups.length, actual: sum(countries, (c) => c.groupCount) },
+  { name: 'Region summaries: group counts add up to total groups', expected: groups.length, actual: sum(regions, (r) => r.groupCount) },
+  { name: 'Country summaries: unknown populations add up to case 12', expected: 39, actual: sum(countries, (c) => c.unknownPopulationCount) },
+  { name: 'Country summaries: bible status None adds up to case 13', expected: 36, actual: sum(countries, (c) => c.bibleStatusCounts.None) },
+  { name: 'Country summaries: every region is a canonical region', expected: countries.length, actual: countries.filter((c) => REGIONS.includes(c.region)).length },
+  { name: 'Country summaries: known population equals sum over groups', expected: sum(groups.filter((g) => g.population !== null), (g) => g.population), actual: sum(countries, (c) => c.knownPopulation) },
+];
+console.log('\nOVERVIEW SANITY (summaries must add back up to the table above)\n');
+console.log(`${pad('Check', 62)} ${pad('Expected', 12)} ${pad('Actual', 12)} Result`);
+console.log('-'.repeat(95));
+for (const s of sanity) {
+  const ok = s.actual === s.expected;
+  ok ? pass++ : fail++;
+  if (!ok) failures.push({ label: s.name, rows: countries });
+  console.log(`${pad(s.name, 62)} ${pad(s.expected, 12)} ${pad(s.actual, 12)} ${ok ? 'PASS' : 'FAIL'}`);
 }
 
 console.log(`\nSUMMARY: ${pass} passed, ${fail} failed`);

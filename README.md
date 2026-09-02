@@ -12,7 +12,9 @@ See `CLAUDE.md` for the spec, rules and correctness table.
 
 ## Running log
 
-**Hours spent:** ~1.25h. 0.5h scaffold + `src/lib/data.js` + `scripts/check.mjs`; 0.75h UI
+**Hours spent:** ~2h. +0.75h for the at-a-glance overview (scope item 8: country filter,
+summary functions, `src/Overview.jsx`, six overview sanity rows in the check script).
+Earlier: 0.5h scaffold + `src/lib/data.js` + `scripts/check.mjs`; 0.75h UI
 (`src/App.jsx`, `src/App.css`): list, five facets with self-excluding counts, search,
 shortlist panel, URL-encoded state, merged-record badges. Scope items 1–6 done; item 7
 (copy shortlist as text) not built.
@@ -31,5 +33,5 @@ rows; would not scale to a large file.
 keep dependencies at zero. It handles quoted fields, `""` escapes and CRLF, which is all
 this file needs, but it is not a general-purpose CSV parser.
 
-**Check cases failing:** none. 17/17 table cases and 6/6 facet counts pass
-(`node scripts/check.mjs`, 23 passed, 0 failed). Region warnings logged: 0.
+**Check cases failing:** none. 17/17 table cases, 6/6 facet counts and 6/6 overview
+sanity rows pass (`node scripts/check.mjs`, 29 passed, 0 failed). Region warnings logged: 0.

@@ -13,6 +13,7 @@ import {
   REGIONS,
   BRACKETS,
 } from './lib/data.js';
+import Overview from './Overview.jsx';
 import './App.css';
 
 // Parsed once at module load. RULE: all cleaning happens in code at load time.
@@ -25,6 +26,7 @@ const DIMENSION_LABELS = {
   bracket: 'Population',
   bible: 'Bible status',
   language: 'Language',
+  country: 'Country',
 };
 
 // Fixed option order for the facets that have a natural order; the rest are
@@ -77,17 +79,19 @@ function FacetGroup({ dim, options, counts, selected, onToggle }) {
   return (
     <fieldset className="facet">
       <legend>{DIMENSION_LABELS[dim]}</legend>
-      {options.map((opt) => (
-        <label key={opt} className="facet-option">
-          <input
-            type="checkbox"
-            checked={selected.includes(opt)}
-            onChange={() => onToggle(dim, opt)}
-          />
-          <span className="facet-label">{opt}</span>
-          <span className="facet-count">{counts[opt] ?? 0}</span>
-        </label>
-      ))}
+      <div className="facet-options">
+        {options.map((opt) => (
+          <label key={opt} className="facet-option">
+            <input
+              type="checkbox"
+              checked={selected.includes(opt)}
+              onChange={() => onToggle(dim, opt)}
+            />
+            <span className="facet-label">{opt}</span>
+            <span className="facet-count">{counts[opt] ?? 0}</span>
+          </label>
+        ))}
+      </div>
     </fieldset>
   );
 }
@@ -199,7 +203,20 @@ export default function App() {
     setState((s) => ({ ...s, query: '', filters: emptyFilters() }));
   }
 
+  // Overview drill-down: replace the current view with a single-value filter.
+  function pickOnly(dim, value) {
+    setState((s) => ({ ...s, query: '', filters: { ...emptyFilters(), [dim]: [value] } }));
+  }
+
   const anyFilter = query !== '' || FILTER_DIMENSIONS.some((d) => filters[d].length > 0);
+
+  // Friendlier results heading when exactly one country or region is selected.
+  let heading = `Showing ${visible.length} of ${groups.length} groups`;
+  if (filters.country.length === 1 && FILTER_DIMENSIONS.every((d) => d === 'country' || filters[d].length === 0) && !query) {
+    heading = `Showing ${visible.length} groups in ${filters.country[0]}`;
+  } else if (filters.region.length === 1 && FILTER_DIMENSIONS.every((d) => d === 'region' || filters[d].length === 0) && !query) {
+    heading = `Showing ${visible.length} groups in ${filters.region[0]}`;
+  }
 
   return (
     <div className="layout">
@@ -232,9 +249,18 @@ export default function App() {
       </aside>
 
       <main className="results">
-        <p className="summary">
-          Showing {visible.length} of {groups.length} groups
-        </p>
+        {anyFilter ? (
+          <button type="button" className="btn btn-link" onClick={clearFilters}>
+            ← Back to overview
+          </button>
+        ) : (
+          <Overview
+            groups={groups}
+            onPickCountry={(c) => pickOnly('country', c)}
+            onPickRegion={(r) => pickOnly('region', r)}
+          />
+        )}
+        <p className="summary">{heading}</p>
         {visible.length === 0 ? (
           <p className="muted">No groups match. Try clearing a filter.</p>
         ) : (

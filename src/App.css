@@ -228,3 +228,204 @@ h3 {
   gap: 0.5rem;
   font-size: 0.9rem;
 }
+
+/* Long facets (country has 38 options) scroll inside the sidebar. */
+
+.facet-options {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+/* Overview: tiles, region blocks, country table, bars */
+
+.overview {
+  margin-bottom: 1.5rem;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.tile {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.75rem 0.9rem;
+}
+
+.tile-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.tile-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.tile-caption {
+  font-size: 0.78rem;
+  color: #666;
+  margin-top: 0.2rem;
+}
+
+.how-to-read {
+  font-size: 0.88rem;
+  color: #444;
+  margin: 0 0 0.6rem;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  font-size: 0.8rem;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+/* One colour per bible status, shared by the legend and the stacked bars.
+   Ordered from most to least Scripture access. */
+.bible-complete-bible { background: #1b7f4b; }
+.bible-new-testament { background: #6fbf73; }
+.bible-portions { background: #f2c14e; }
+.bible-none { background: #c0392b; }
+.bible-unknown { background: #bdbdbd; }
+
+.region-block {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.6rem 0.9rem 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.region-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.3rem;
+}
+
+.region-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: #1a5fb4;
+  cursor: pointer;
+  text-align: left;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+.country-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.country-table th {
+  text-align: left;
+  font-weight: 600;
+  color: #666;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.25rem 0.5rem 0.25rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.country-table td {
+  padding: 0.3rem 0.5rem 0.3rem 0;
+  border-bottom: 1px solid #f3f3f3;
+  vertical-align: middle;
+}
+
+.country-table tr:last-child td {
+  border-bottom: none;
+}
+
+.country-table .num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.count-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 120px;
+}
+
+.count-bar {
+  height: 10px;
+  background: #4a7fc1;
+  border-radius: 2px;
+  min-width: 2px;
+}
+
+.count-num {
+  font-variant-numeric: tabular-nums;
+}
+
+.bible-bar {
+  display: flex;
+  height: 10px;
+  width: 100%;
+  min-width: 100px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #eee;
+}
+
+.bible-seg {
+  height: 100%;
+}
+
+.small {
+  font-size: 0.78rem;
+}
+
+@media (max-width: 700px) {
+  .country-table thead {
+    display: none;
+  }
+  .country-table td {
+    display: block;
+    padding: 0.15rem 0;
+    border-bottom: none;
+  }
+  .country-table tr {
+    display: block;
+    border-bottom: 1px solid #eee;
+    padding: 0.4rem 0;
+  }
+}

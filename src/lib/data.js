@@ -141,6 +141,10 @@ export function parsePopulation(raw) {
 
 export const BRACKETS = ['<10k', '10k-100k', '100k-1M', '1M+', 'Unknown'];
 
+// Bible status values in display order (best access first). RULE: "None" is a
+// real category and is listed as such.
+export const BIBLE_STATUSES = ['Complete Bible', 'New Testament', 'Portions', 'None', 'Unknown'];
+
 // RULE: population brackets. Boundaries: exactly 10,000 → "10k-100k",
 // exactly 1,000,000 → "1M+" (Interpretation notes).
 export function populationBracket(pop) {
@@ -286,12 +290,13 @@ export function matchesSearch(group, query) {
   return group.canonicalName.includes(q);
 }
 
-// Filter shape: { region: [], religion: [], bracket: [], bible: [], language: [] }
+// Filter shape: { region: [], religion: [], bracket: [], bible: [], language: [], country: [] }
 // Each value is an array of selected options. Empty array = not filtered.
-export const FILTER_DIMENSIONS = ['region', 'religion', 'bracket', 'bible', 'language'];
+// "country" was added for the overview drill-down; it matches group.country exactly.
+export const FILTER_DIMENSIONS = ['region', 'religion', 'bracket', 'bible', 'language', 'country'];
 
 export function emptyFilters() {
-  return { region: [], religion: [], bracket: [], bible: [], language: [] };
+  return { region: [], religion: [], bracket: [], bible: [], language: [], country: [] };
 }
 
 // Does one group satisfy one dimension's selection? RULE: within a dimension
@@ -309,6 +314,8 @@ function matchesDimension(group, dim, selected) {
       return selected.includes(group.bibleStatus);
     case 'language':
       return group.languages.some((l) => selected.includes(l));
+    case 'country':
+      return selected.includes(group.country);
     default:
       return true;
   }
@@ -339,6 +346,8 @@ function facetValues(group, dim) {
       return [group.bibleStatus];
     case 'language':
       return group.languages;
+    case 'country':
+      return [group.country];
     default:
       return [];
   }
@@ -359,4 +368,86 @@ export function facetCounts(groups, filters, query = '') {
     counts[dim] = tally;
   }
   return counts;
+}
+
+// ---------------------------------------------------------------------------
+// Overview summaries (per country and per region), over merged groups
+// ---------------------------------------------------------------------------
+
+// Fold a list of groups into one summary. Interpretation notes:
+// - knownPopulation sums only groups whose population parsed; Unknown groups
+//   are counted separately in unknownPopulationCount and never summed as 0.
+// - avgEvangelicalPercent is an unweighted mean over groups that have a value,
+//   or null when none do. It is NOT population-weighted.
+function summarise(list) {
+  const bibleStatusCounts = {};
+  for (const s of BIBLE_STATUSES) bibleStatusCounts[s] = 0;
+  let knownPopulation = 0;
+  let unknownPopulationCount = 0;
+  let evSum = 0;
+  let evCount = 0;
+  let mergedCount = 0;
+  for (const g of list) {
+    if (g.population === null) unknownPopulationCount++;
+    else knownPopulation += g.population;
+    if (g.evangelicalPercent !== null) {
+      evSum += g.evangelicalPercent;
+      evCount++;
+    }
+    bibleStatusCounts[g.bibleStatus] = (bibleStatusCounts[g.bibleStatus] ?? 0) + 1;
+    if (g.mergedFrom && g.mergedFrom.length > 1) mergedCount++;
+  }
+  return {
+    groupCount: list.length,
+    knownPopulation,
+    unknownPopulationCount,
+    bibleStatusCounts,
+    avgEvangelicalPercent: evCount ? evSum / evCount : null,
+    mergedCount,
+  };
+}
+
+// Order helper: canonical regions first in REGIONS order, any unrecognised
+// region spelling (kept as-is per the region rule) after them alphabetically.
+function regionRank(region) {
+  const i = REGIONS.indexOf(region);
+  return i === -1 ? REGIONS.length : i;
+}
+
+// One summary per country, sorted by region (REGIONS order) then by group
+// count descending, then country name.
+export function countrySummaries(groups) {
+  const byCountry = new Map();
+  for (const g of groups) {
+    if (!byCountry.has(g.country)) byCountry.set(g.country, { region: g.region, list: [] });
+    byCountry.get(g.country).list.push(g);
+  }
+  return Array.from(byCountry, ([country, { region, list }]) => ({
+    country,
+    region,
+    ...summarise(list),
+  })).sort(
+    (a, b) =>
+      regionRank(a.region) - regionRank(b.region) ||
+      a.region.localeCompare(b.region) ||
+      b.groupCount - a.groupCount ||
+      a.country.localeCompare(b.country),
+  );
+}
+
+// One summary per region, in REGIONS order (unrecognised regions last).
+export function regionSummaries(groups) {
+  const byRegion = new Map();
+  for (const g of groups) {
+    if (!byRegion.has(g.region)) byRegion.set(g.region, []);
+    byRegion.get(g.region).push(g);
+  }
+  return Array.from(byRegion, ([region, list]) => ({ region, ...summarise(list) })).sort(
+    (a, b) => regionRank(a.region) - regionRank(b.region) || a.region.localeCompare(b.region),
+  );
+}
+
+// Whole-dataset summary for the headline tiles.
+export function overallSummary(groups) {
+  return { ...summarise(groups), countryCount: new Set(groups.map((g) => g.country)).size };
 }

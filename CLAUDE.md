@@ -42,6 +42,11 @@ half-finished. Do not add features that are not listed under SCOPE.
 6. Merged records are visible: a group formed from duplicates shows a
    "merged from N records" badge and lists the source ids and original spellings.
 7. Nice-to-have only if 1–6 are done: copy-shortlist-as-text button.
+8. (Added after the challenge, by the owner) At-a-glance overview on the home page:
+   headline tiles, then per-region blocks with a row per country showing group
+   count, known population, bible-status breakdown and average evangelical %.
+   Clicking a country or region filters the list. Adds `country` as a filter
+   dimension. Hidden whenever any filter or search is active.
 
 ## Data file
 
@@ -131,6 +136,10 @@ If a region value is not in this table, keep it as-is and log a warning; do not 
   literal value `Africa, Sub-Saharan` (quoted, 8 rows). We map `Africa`, `Sub-Saharan`
   and `Africa, Sub-Saharan` all to Sub-Saharan Africa.
 - The CSV has CRLF line endings; the parser strips `\r` and trims every field.
+- Overview population totals sum only groups whose population parsed; Unknown groups
+  are counted and displayed separately ("N of M unknown"), never summed as 0.
+- Overview evangelical % is an unweighted mean over groups that have a value. It is
+  not population-weighted, because 39 groups have no population figure.
 
 ## CORRECTNESS TABLE (from A_Check_Answers — counts are over merged groups unless stated)
 
