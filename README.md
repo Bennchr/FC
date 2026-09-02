@@ -12,7 +12,10 @@ See `CLAUDE.md` for the spec, rules and correctness table.
 
 ## Running log
 
-**Hours spent:** ~0.5h (scaffold, `src/lib/data.js`, `scripts/check.mjs`). No UI yet.
+**Hours spent:** ~1.25h. 0.5h scaffold + `src/lib/data.js` + `scripts/check.mjs`; 0.75h UI
+(`src/App.jsx`, `src/App.css`): list, five facets with self-excluding counts, search,
+shortlist panel, URL-encoded state, merged-record badges. Scope items 1–6 done; item 7
+(copy shortlist as text) not built.
 
 **Hardest decision:** the region rule row `SSA, Sub-Saharan Africa, Africa, Sub-Saharan`
 is ambiguous: it could list two spellings (`Africa` and `Sub-Saharan`) or one
@@ -20,7 +23,11 @@ is ambiguous: it could list two spellings (`Africa` and `Sub-Saharan`) or one
 in 8 rows, so the code maps all three spellings to Sub-Saharan Africa. Recorded under
 Interpretation notes in `CLAUDE.md`.
 
-**One hacky thing:** the CSV parser is hand-rolled (~50 lines) instead of a library, to
+**One hacky thing (UI):** the CSV is bundled into the JS at build time via Vite's `?raw`
+import and parsed on page load, so there is no fetch and no loading state. Fine for 220
+rows; would not scale to a large file.
+
+**One hacky thing (data):** the CSV parser is hand-rolled (~50 lines) instead of a library, to
 keep dependencies at zero. It handles quoted fields, `""` escapes and CRLF, which is all
 this file needs, but it is not a general-purpose CSV parser.
 

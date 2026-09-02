@@ -1,2 +1,2 @@
-/* Global reset only; real styles come with the UI. */
-body { margin: 0; font-family: system-ui, sans-serif; }
+/* Global base styles. */
+body { margin: 0; font-family: system-ui, sans-serif; color: #222; background: #f4f4f4; }

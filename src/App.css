@@ -1,1 +1,230 @@
-/* App styles (empty until the UI is built). */
+/* Three-column layout: filters | results | shortlist. Plain CSS, no library. */
+
+.layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 280px;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1000px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+h1 {
+  font-size: 1.3rem;
+  margin: 0 0 1rem;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.75rem;
+}
+
+h3 {
+  font-size: 1.05rem;
+  margin: 0 0 0.25rem;
+}
+
+.muted {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Sidebar: search + facets */
+
+.search {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.search span {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.search input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.95rem;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+.facet {
+  border: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.facet legend {
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  padding: 0;
+}
+
+.facet-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  padding: 0.15rem 0;
+  cursor: pointer;
+}
+
+.facet-label {
+  flex: 1;
+}
+
+.facet-count {
+  color: #666;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Results list */
+
+.summary {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+}
+
+.cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  background: #fff;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #7a4a00;
+  background: #fff1d6;
+  border: 1px solid #f0c674;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.2rem 0.75rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.facts dt {
+  color: #666;
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.merged-list {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.merged-list code {
+  font-size: 0.8rem;
+  background: #f3f3f3;
+  padding: 0 0.25rem;
+  border-radius: 3px;
+}
+
+/* Buttons */
+
+.btn {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.85rem;
+  border: 1px solid #2a6;
+  background: #2a6;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-remove {
+  background: #fff;
+  color: #a33;
+  border-color: #a33;
+}
+
+.btn-small {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  background: #fff;
+  color: #a33;
+  border-color: #a33;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #2a6;
+  padding: 0;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+}
+
+/* Shortlist panel */
+
+.shortlist {
+  position: sticky;
+  top: 1.5rem;
+  align-self: start;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  background: #fafafa;
+}
+
+.shortlist ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.shortlist li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
