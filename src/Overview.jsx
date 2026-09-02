@@ -7,6 +7,8 @@ import {
   regionSummaries,
   overallSummary,
   BIBLE_STATUSES,
+  NEED_CATEGORIES,
+  NEED_DESCRIPTIONS,
 } from './lib/data.js';
 
 function fmt(n) {
@@ -64,7 +66,7 @@ function StatTile({ value, label, caption }) {
   );
 }
 
-export default function Overview({ groups, onPickCountry, onPickRegion }) {
+export default function Overview({ groups, onPickCountry, onPickRegion, onPickNeed }) {
   const overall = overallSummary(groups);
   const regions = regionSummaries(groups);
   const countries = countrySummaries(groups);
@@ -88,6 +90,22 @@ export default function Overview({ groups, onPickCountry, onPickRegion }) {
           caption="No part of the Bible exists in their language"
         />
       </div>
+
+      <section className="need-picker" aria-labelledby="need-picker-title">
+        <h3 id="need-picker-title">I have… where should they go?</h3>
+        <p className="muted small">Pick what you have to send. The list will show the groups tagged with that need.</p>
+        <div className="need-buttons">
+          {NEED_CATEGORIES.map((cat) => (
+            <button key={cat} type="button" className="need-btn" onClick={() => onPickNeed(cat)}>
+              <span className="need-btn-title">{cat}</span>
+              <span className="need-btn-caption">{NEED_DESCRIPTIONS[cat]}</span>
+            </button>
+          ))}
+        </div>
+        <p className="muted small">
+          Tags marked “placeholder” are randomly assigned for testing; each group's page shows which tags come from the data.
+        </p>
+      </section>
 
       <p className="how-to-read">
         A <strong>people group</strong> is a community that shares a language and identity.

@@ -14,7 +14,7 @@ import {
   BRACKETS,
 } from './lib/data.js';
 import Overview from './Overview.jsx';
-import GroupDetail from './GroupDetail.jsx';
+import GroupDetail, { NeedChips } from './GroupDetail.jsx';
 import './App.css';
 
 // Parsed once at module load. RULE: all cleaning happens in code at load time.
@@ -28,6 +28,7 @@ const DIMENSION_LABELS = {
   bible: 'Bible status',
   language: 'Language',
   country: 'Country',
+  need: 'Need',
 };
 
 // Fixed option order for the facets that have a natural order; the rest are
@@ -145,6 +146,7 @@ function GroupCard({ group, inShortlist, onToggleShortlist, onOpen }) {
         <dt>Bible status</dt>
         <dd>{group.bibleStatus}</dd>
       </dl>
+      <NeedChips tags={group.needsDetail} />
       {mergedCount > 1 && (
         <p className="merged-list">
           Source records:{' '}
@@ -271,7 +273,8 @@ export default function App() {
   const onlyDim = (dim) =>
     filters[dim].length === 1 && !query && FILTER_DIMENSIONS.every((d) => d === dim || filters[d].length === 0);
   let heading = `Showing ${visible.length} of ${groups.length} groups`;
-  if (onlyDim('country')) heading = `Showing ${visible.length} groups in ${filters.country[0]}`;
+  if (onlyDim('need')) heading = `Showing ${visible.length} groups that need ${filters.need[0]}`;
+  else if (onlyDim('country')) heading = `Showing ${visible.length} groups in ${filters.country[0]}`;
   else if (onlyDim('region')) heading = `Showing ${visible.length} groups in ${filters.region[0]}`;
 
   const backLabel = view === 'shortlist' ? 'Back to shortlist' : view === 'groups' ? 'Back to groups' : 'Back to overview';
@@ -318,6 +321,7 @@ export default function App() {
             groups={groups}
             onPickCountry={(c) => pickOnly('country', c)}
             onPickRegion={(r) => pickOnly('region', r)}
+            onPickNeed={(n) => pickOnly('need', n)}
           />
         </div>
       ) : view === 'shortlist' ? (

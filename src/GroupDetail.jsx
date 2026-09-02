@@ -1,16 +1,34 @@
 // Full-page view of one group: every fact, the merge sources, and a clearly
 // labelled placeholder "what this group needs" section. All content comes from
 // the group record and needsHints() in src/lib/data.js.
-import { displayName, needsHints } from './lib/data.js';
+import { displayName } from './lib/data.js';
 
 function formatPopulation(group) {
   if (group.population === null) return 'Unknown';
   return group.population.toLocaleString('en-US');
 }
 
+// Needs tags as small chips. Placeholder tags are visually distinct and titled.
+export function NeedChips({ tags }) {
+  return (
+    <div className="chips">
+      {tags.map((t) => (
+        <span
+          key={t.category}
+          className={t.placeholder ? 'chip chip-placeholder' : 'chip'}
+          title={t.placeholder ? 'Placeholder tag, not from data' : t.why}
+        >
+          {t.category}
+          {t.placeholder && <span className="chip-note"> · placeholder</span>}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default function GroupDetail({ group, backLabel, onBack, inShortlist, onToggleShortlist }) {
   const mergedCount = group.mergedFrom.length;
-  const hints = needsHints(group);
+  const tags = group.needsDetail;
 
   return (
     <article className="detail">
@@ -75,15 +93,15 @@ export default function GroupDetail({ group, backLabel, onBack, inShortlist, onT
 
       <section className="placeholder-box" aria-labelledby="needs-title">
         <h3 id="needs-title">What this group needs</h3>
+        <NeedChips tags={tags} />
         <p className="placeholder-label">
-          Placeholder: illustrative hints generated from the data fields above. Not verified.
-          Replace with researched content.
+          Test data. Tags marked placeholder are randomly assigned. Tags from the data show the rule used.
         </p>
         <ul className="needs-list">
-          {hints.map((h) => (
-            <li key={h.title}>
-              <strong>{h.title}</strong>
-              <span className="muted"> — {h.why}</span>
+          {tags.map((t) => (
+            <li key={t.category}>
+              <strong>{t.category}</strong>
+              <span className="muted"> — {t.why}</span>
             </li>
           ))}
         </ul>

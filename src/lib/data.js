@@ -275,6 +275,11 @@ export function loadData(csvText) {
     return record;
   });
   const groups = mergeRecords(records);
+  // Needs tags are computed on the merged group (the kept record's fields).
+  for (const g of groups) {
+    g.needsDetail = needsTags(g);
+    g.needs = g.needsDetail.map((t) => t.category);
+  }
   return { rawRows, records, groups, warnings };
 }
 
@@ -290,13 +295,14 @@ export function matchesSearch(group, query) {
   return group.canonicalName.includes(q);
 }
 
-// Filter shape: { region: [], religion: [], bracket: [], bible: [], language: [], country: [] }
+// Filter shape: { need: [], region: [], religion: [], bracket: [], bible: [], language: [], country: [] }
 // Each value is an array of selected options. Empty array = not filtered.
 // "country" was added for the overview drill-down; it matches group.country exactly.
-export const FILTER_DIMENSIONS = ['region', 'religion', 'bracket', 'bible', 'language', 'country'];
+// "need" is listed first: it is the mobilizer's primary question.
+export const FILTER_DIMENSIONS = ['need', 'region', 'religion', 'bracket', 'bible', 'language', 'country'];
 
 export function emptyFilters() {
-  return { region: [], religion: [], bracket: [], bible: [], language: [], country: [] };
+  return { need: [], region: [], religion: [], bracket: [], bible: [], language: [], country: [] };
 }
 
 // Does one group satisfy one dimension's selection? RULE: within a dimension
@@ -316,6 +322,9 @@ function matchesDimension(group, dim, selected) {
       return group.languages.some((l) => selected.includes(l));
     case 'country':
       return selected.includes(group.country);
+    case 'need':
+      // Like language: a group matches if any of its needs tags match.
+      return group.needs.some((n) => selected.includes(n));
     default:
       return true;
   }
@@ -348,6 +357,8 @@ function facetValues(group, dim) {
       return group.languages;
     case 'country':
       return [group.country];
+    case 'need':
+      return group.needs;
     default:
       return [];
   }
@@ -453,43 +464,82 @@ export function overallSummary(groups) {
 }
 
 // ---------------------------------------------------------------------------
-// Placeholder "what this group needs" hints
+// Needs categories and tagging (guiding principle: "I have X, where should I
+// send them?")
 // ---------------------------------------------------------------------------
 
-// PLACEHOLDER (Interpretation notes): these are illustrative rules over the
-// fields already on the group. They are not researched or sourced content and
-// the UI labels them as such. Replace with real content when available.
-// Returns a non-empty array of { title, why }.
-export function needsHints(group) {
-  const hints = [];
-  switch (group.bibleStatus) {
-    case 'None':
-      hints.push({ title: 'Scripture translation', why: 'No part of the Bible exists in their language.' });
-      break;
-    case 'Portions':
-      hints.push({ title: 'Complete the New Testament', why: 'Only portions of Scripture exist in their language.' });
-      break;
-    case 'New Testament':
-      hints.push({ title: 'Full Bible translation', why: 'The New Testament exists but the Old Testament does not.' });
-      break;
-    case 'Unknown':
-      hints.push({ title: 'Confirm Scripture availability', why: 'Bible status for this group is not recorded.' });
-      break;
-    default:
-      break;
+// The things a mobilizer might have to send. Order is the display order.
+export const NEED_CATEGORIES = [
+  'Church planters',
+  'Bible translation',
+  'Discipleship materials',
+  'Theology teachers',
+  'Educational training',
+  'Vocational training',
+  'Medical supplies & crisis funds',
+  'Infrastructure',
+];
+
+// One line per category: what the mobilizer has in hand.
+export const NEED_DESCRIPTIONS = {
+  'Church planters': 'trained church planters ready to go',
+  'Bible translation': 'translators or translation funding',
+  'Discipleship materials': 'printed or audio discipleship resources',
+  'Theology teachers': 'teachers to train local leaders',
+  'Educational training': 'teachers or school support',
+  'Vocational training': 'trade or business trainers',
+  'Medical supplies & crisis funds': 'medical teams or relief funds',
+  'Infrastructure': 'building, water or connectivity projects',
+};
+
+// Tiny FNV-1a string hash → non-negative integer. Used ONLY to pick placeholder
+// tags deterministically from the group id, so a shared URL always reproduces
+// the same view. Never use Math.random here.
+export function hashId(id) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < id.length; i++) {
+    h ^= id.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h >>> 0;
+}
+
+const MIN_TAGS = 2;
+const MAX_TAGS = 4;
+
+// PLACEHOLDER (Interpretation notes): tags a group with needs categories.
+// Rule-derived tags come from fields already on the record and say which rule
+// fired. Filler tags are placeholders chosen by hashId(id) until the group has
+// MIN_TAGS tags. Returns [{ category, why, placeholder }], at most MAX_TAGS.
+export function needsTags(group) {
+  const tags = [];
+  const add = (category, why) => {
+    if (!tags.some((t) => t.category === category)) tags.push({ category, why, placeholder: false });
+  };
+
+  if (group.bibleStatus === 'None' || group.bibleStatus === 'Portions') {
+    add('Bible translation', `Bible status is "${group.bibleStatus}".`);
+  }
+  if (group.bibleStatus === 'New Testament' || group.bibleStatus === 'Complete Bible') {
+    add('Discipleship materials', `Scripture exists (${group.bibleStatus}) but few believers to use it.`);
   }
   if (group.evangelicalPercent !== null && group.evangelicalPercent < 0.5) {
-    hints.push({ title: 'Pioneer church planting', why: `Fewer than 1 in 200 are evangelical (${group.evangelicalPercent.toFixed(2)}%).` });
+    add('Church planters', `Fewer than 1 in 200 are evangelical (${group.evangelicalPercent.toFixed(2)}%).`);
   }
-  if (group.populationBracket === '1M+') {
-    hints.push({ title: 'Multiple teams', why: `Large population (${group.population.toLocaleString('en-US')}); one team cannot reach them all.` });
+  if (group.evangelicalPercent !== null && group.evangelicalPercent >= 1.0) {
+    add('Theology teachers', `An emerging church exists to teach (${group.evangelicalPercent.toFixed(2)}% evangelical).`);
   }
-  if (group.population === null) {
-    hints.push({ title: 'Research', why: 'Population is unknown; the size of the task is unclear.' });
+
+  // Fill with deterministic placeholders until MIN_TAGS is reached.
+  let seed = hashId(group.id);
+  let guard = 0;
+  while (tags.length < MIN_TAGS && guard < 32) {
+    const category = NEED_CATEGORIES[seed % NEED_CATEGORIES.length];
+    if (!tags.some((t) => t.category === category)) {
+      tags.push({ category, why: 'Placeholder tag (not from data).', placeholder: true });
+    }
+    seed = hashId(`${group.id}:${guard}`);
+    guard++;
   }
-  if (group.languages.length > 1) {
-    hints.push({ title: 'Resources in each language', why: `They use ${group.languages.join(' and ')}.` });
-  }
-  hints.push({ title: 'Prayer', why: 'Every group on this list is unreached.' });
-  return hints;
+  return tags.slice(0, MAX_TAGS);
 }

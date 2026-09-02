@@ -14,6 +14,14 @@ in the URL).
 This is a two-hour challenge. A small thing that works beats a large thing that is
 half-finished. Do not add features that are not listed under SCOPE.
 
+## Guiding principle (from the owner; applies to every change)
+
+The app exists to help a mission mobilizer achieve something in the most efficient way
+possible. Their question is: "I have X (e.g. trained church planters ready to go). Where
+should I send them?" Weigh every feature by whether it shortens the path from that
+question to a shortlist. If a feature does not serve that path, it probably does not
+belong.
+
 ## Hard constraints
 
 - Single static front-end app. No backend, no database, no auth, no external API.
@@ -51,6 +59,11 @@ half-finished. Do not add features that are not listed under SCOPE.
    filters, list) and Shortlist, tracked in the URL as `view=`. Clicking a group opens
    a full detail page (`group=<id>` in the URL) with every fact, the merge sources and
    a clearly labelled PLACEHOLDER "What this group needs" section.
+10. (Added after the challenge, by the owner) Needs categories (`NEED_CATEGORIES` in
+   `src/lib/data.js`). Every group is tagged with 2–4 categories: rule-derived where the
+   data supports it, otherwise deterministic placeholders seeded by the group id. `need`
+   is a filter dimension (listed first). The Overview has an "I have… where should they
+   go?" picker that jumps to the Groups tab with that need selected.
 
 ## Data file
 
@@ -147,6 +160,10 @@ If a region value is not in this table, keep it as-is and log a warning; do not 
 - The "What this group needs" hints are illustrative rules over fields already on the
   record (bible status, evangelical %, population, languages). They are a placeholder,
   labelled as unverified in the UI, and are not sourced content.
+- Needs tags: rule-derived tags (bible status → Bible translation / Discipleship
+  materials; evangelical % → Church planters / Theology teachers) carry the rule as their
+  reason. Filler tags are placeholders chosen by an FNV-1a hash of the id, never
+  `Math.random`, so shared URLs reproduce the same view. The UI labels them "placeholder".
 
 ## CORRECTNESS TABLE (from A_Check_Answers — counts are over merged groups unless stated)
 

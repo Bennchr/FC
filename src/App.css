@@ -533,3 +533,82 @@ h3 {
     padding: 0.4rem 0;
   }
 }
+
+/* Needs tags as chips */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+}
+
+.chip {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: #e3ecf7;
+  color: #1a5fb4;
+  border: 1px solid #c9d9ee;
+}
+
+.chip-placeholder {
+  background: #fff;
+  color: #777;
+  border: 1px dotted #999;
+  font-weight: 500;
+}
+
+.chip-note {
+  font-weight: 400;
+}
+
+/* "I have… where should they go?" picker on the overview */
+
+.need-picker {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.need-picker h3 {
+  margin: 0 0 0.2rem;
+}
+
+.need-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.5rem;
+  margin: 0.6rem 0;
+}
+
+.need-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  text-align: left;
+  padding: 0.5rem 0.7rem;
+  background: #f4f8fd;
+  border: 1px solid #c9d9ee;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.need-btn:hover {
+  background: #e3ecf7;
+}
+
+.need-btn-title {
+  font-weight: 700;
+  color: #1a5fb4;
+}
+
+.need-btn-caption {
+  font-size: 0.78rem;
+  color: #555;
+}

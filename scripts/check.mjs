@@ -15,7 +15,8 @@ import {
   facetCounts,
   countrySummaries,
   regionSummaries,
-  needsHints,
+  needsTags,
+  NEED_CATEGORIES,
   REGIONS,
 } from '../src/lib/data.js';
 
@@ -118,7 +119,9 @@ const sanity = [
   { name: 'Country summaries: bible status None adds up to case 13', expected: 36, actual: sum(countries, (c) => c.bibleStatusCounts.None) },
   { name: 'Country summaries: every region is a canonical region', expected: countries.length, actual: countries.filter((c) => REGIONS.includes(c.region)).length },
   { name: 'Country summaries: known population equals sum over groups', expected: sum(groups.filter((g) => g.population !== null), (g) => g.population), actual: sum(countries, (c) => c.knownPopulation) },
-  { name: 'Placeholder needs hints: every group has at least one', expected: groups.length, actual: groups.filter((g) => needsHints(g).length > 0).length },
+  { name: 'Needs tags: every group has 2 to 4 tags', expected: groups.length, actual: groups.filter((g) => g.needs.length >= 2 && g.needs.length <= 4).length },
+  { name: 'Needs tags: deterministic (same result when recomputed)', expected: groups.length, actual: groups.filter((g) => needsTags(g).map((t) => t.category).join('|') === g.needs.join('|')).length },
+  { name: 'Needs tags: every tag is a known category', expected: groups.length, actual: groups.filter((g) => g.needs.every((n) => NEED_CATEGORIES.includes(n))).length },
 ];
 console.log('\nOVERVIEW SANITY (summaries must add back up to the table above)\n');
 console.log(`${pad('Check', 62)} ${pad('Expected', 12)} ${pad('Actual', 12)} Result`);
@@ -128,6 +131,16 @@ for (const s of sanity) {
   ok ? pass++ : fail++;
   if (!ok) failures.push({ label: s.name, rows: countries });
   console.log(`${pad(s.name, 62)} ${pad(s.expected, 12)} ${pad(s.actual, 12)} ${ok ? 'PASS' : 'FAIL'}`);
+}
+
+// Informational: how the needs tags are spread (rule-derived vs placeholder).
+console.log('\nNEEDS TAG DISTRIBUTION (informational; placeholder tags are seeded by id)\n');
+console.log(`${pad('Category', 34)} ${pad('Groups', 8)} ${pad('From data', 10)} Placeholder`);
+console.log('-'.repeat(66));
+for (const cat of NEED_CATEGORIES) {
+  const tagged = groups.flatMap((g) => g.needsDetail.filter((t) => t.category === cat));
+  const fromData = tagged.filter((t) => !t.placeholder).length;
+  console.log(`${pad(cat, 34)} ${pad(tagged.length, 8)} ${pad(fromData, 10)} ${tagged.length - fromData}`);
 }
 
 console.log(`\nSUMMARY: ${pass} passed, ${fail} failed`);
