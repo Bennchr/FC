@@ -36,7 +36,7 @@ I wouldn't say it was the hardest decision, but the trickiest and what needed th
 
 After creating the initial build, which was fairly simple as it was just fixing and streamlining the data, I realized halfway that I hadn't been clear about the goal in my plan. So I thought, what should the guiding principle be? 
 
-I realized that a mobilizer isn't just going to be satisfied praying for a name and number, and would ideally want something more practical. I decided that it should be to help a mobilizer answer "If I have X resource, what can I do with them?", and created the at-a-glance overview, the tab split and the needs filter. After including some placeholder information about each people group, now, a mobilizer can look at the resources he has on hand and quickly find the place that needs them most, read about them and find ways to help this group with what they have. 
+I realized that a mobilizer isn't just going to be satisfied praying for a name and number, and would ideally want something more practical. I decided that it should be to help a mobilizer answer "If I have X resource, what can I do with them?", and created the at-a-glance overview, the tab split and the needs filter. After including some placeholder information about each people group (the resources and needs are supposed to be non-exhaustive), now, a mobilizer can look at the resources he has on hand and quickly find the place that needs them most, read about them and find ways to help this group with what they have. 
 
 3. ## One thing I know is hacky
 
