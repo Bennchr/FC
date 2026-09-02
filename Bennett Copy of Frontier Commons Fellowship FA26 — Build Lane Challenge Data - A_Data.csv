@@ -1,0 +1,221 @@
+id,name,country,region,primary_religion,population,language,evangelical_percent,bible_status
+PG-1035,Vietnamese,Vietnam,Southeast Asia,Buddhism,,Vietnamese,0.72,None
+PG-1140,Zhuang Northern Riverine,China,East Asia,Ethnic Religion,1688717,Zhuang,0.74,Complete Bible
+PG-1076,Domari Nawar,Egypt,Middle East,Islam,3100,Domari,0.43,Unknown
+PG-1131,Madurese Northern,Indonesia,SE Asia,Islam,,Madurese,0.74,Unknown
+PG-1038,Tajik,Tajikistan,Central Asia,Islam,8600000,Tajik,0.63,Complete Bible
+PG-1122,Uzbek Coastal,Uzbekistan,C. Asia,Islam,1740017,Uzbek,1.87,None
+PG-1201,Zhuang Northern Coastal,China,E. Asia,Ethnic Religion,1451174,Zhuang,1.54,New Testament
+PG-1183,Afar Western,Ethiopia,SSA,Islam,114684,Afar; French,0.81,Portions
+PG-1128,Nubian Kenuzi Western,Egypt,Middle East & North Africa,Islam,,Kenuzi,1.00,Complete Bible
+PG-1172,Oromo Arsi Riverine,Ethiopia,Sub-Saharan Africa,Islam,"368,943",Oromo,1.83,Complete Bible
+PG-1085,Nûristani,Afghanistan,South Asia,Islam,128000,Kamkata-viri,0.06,None
+PG-1003,Tibetan Amdo,China,E. Asia,Buddhism,"900,000",Amdo Tibetan,1.33,New Testament
+PG-1039,Pamiri Shughni,Tajikistan,C. Asia,Islam,"95,000",Shughni,0.58,Unknown
+PG-1112,Kurd Western,Turkey,MENA,Islam,231929,Kurmanji,0.23,Unknown
+PG-1194,Tharu Highland,Nepal,S. Asia,Hinduism,165336,Tharu,1.63,New Testament
+PG-1125,Madurese Coastal,Indonesia,South-East Asia,Islam,"1,127,374",Madurese; Russian,1.02,New Testament
+PG-1071,Yaghnobi,Tajikistan,Central Asia,Islam,<1000,Yaghnobi,0.09,Portions
+PG-1154,Fulani Sokoto Coastal,Nigeria,Sub-Saharan Africa,Islam,80992,Fulfulde,1.52,Unknown
+PG-1084,Zazaki,Turkey,N. Africa & Middle East,Islam,1680000,Zazaki,0.18,None
+PG-1142,Pashtun Durrani Highland,Afghanistan,South Asia,Islam,,Pashto,0.29,None
+PG-1100,Laz Eastern,Turkey,Middle East,Islam,4528,Laz,0.27,New Testament
+PG-1086,Kurdish,Turkey,N. Africa & Middle East,Islam,12920000-17480000,Kurmanji,0.88,Portions
+PG-1180,Sundanese Highland,Indonesia,South-East Asia,Islam,1724952,Sundanese,1.79,Unknown
+PG-1196,Maasai Urban,Tanzania,SSA,Ethnic Religion,"52,830",Maa,1.63,Complete Bible
+PG-1129,Uzbek Coastal,Uzbekistan,C. Asia,Islam,5058942,Uzbek,0.52,None
+PG-1046,Laz,Turkey,Middle East & North Africa,Islam,42000,Laz; Arabic,0.72,New Testament
+PG-1072,Ainu,Japan,East Asia,Ethnic Religion,25000,Ainu,0.41,New Testament
+PG-1081,Hmông Njua,Laos,SE Asia,Ethnic Religion,455000,Hmong Njua,0.63,Portions
+PG-1202,Tibetan Amdo Plains,China,E. Asia,Buddhism,25828,Amdo Tibetan; Russian,1.67,Portions
+PG-1024,Shan,Myanmar,SE Asia,Buddhism,"4,900,000",Shan; Arabic,0.60,Portions
+PG-1074,Bhatola,India,Southern Asia,Hinduism,"6,200",Hindi,0.16,Portions
+PG-1006,Japanese,Japan,East Asia,Buddhism,120000000,Japanese,1.27,Complete Bible
+PG-1052,Gilaki,Iran,Middle East,Islam,2805000-3794999,Gilaki,1.35,New Testament
+PG-1066,Oromo Arsi,Ethiopia,SSA,Islam,,Oromo,1.15,Unknown
+PG-1107,Berber Rif Riverine,Morocco,N. Africa & Middle East,Islam,627214,Tarifit,0.97,New Testament
+PG-1160,Newar Western,Nepal,Southern Asia,Hinduism,212155,Newari; Arabic,0.72,None
+PG-1130,Madurese Western,Indonesia,Southeast Asia,Islam,244276,Madurese,1.02,New Testament
+PG-1166,Kazakh Highland,Kazakhstan,Central Asia,Islam,1710494,Kazakh; French,1.76,Unknown
+PG-1079,Uighur,China,E. Asia,Islam,11400000,Uyghur,0.39,Unknown
+PG-1174,Brahui Riverine,Pakistan,S. Asia,Islam,"208,203",Brahui,0.95,None
+PG-1020,Tharu,Nepal,South Asia,Hinduism,1900000,Tharu,0.70,New Testament
+PG-1108,Uzbek Western,Uzbekistan,Central Asia,Islam,1244362,Uzbek,1.93,None
+PG-1043,Kurd,Turkey,N. Africa & Middle East,Islam,"15,000,000",Kurmanji,0.25,New Testament
+PG-1186,Kyrgyz Southern,Kyrgyzstan,C. Asia,Islam,"761,945",Kyrgyz,1.98,Portions
+PG-1208,Rajput Chauhan Urban,India,S. Asia,Hinduism,118120,Hindi,1.57,None
+PG-1008,Mongol Khalkha,Mongolia,East Asia,Buddhism,"2,600,000",Mongolian,1.25,Portions
+PG-1110,Laz Northern,Turkey,Middle East,Islam,5967,Laz,0.03,Complete Bible
+PG-1182,Javanese Pesisir Northern,Indonesia,SE Asia,Islam,584389,Javanese,0.88,Complete Bible
+PG-1097,Rohingya Northern,Myanmar,SE Asia,Islam,219685-297222,Rohingya,1.16,None
+PG-1113,Arab Hijazi Northern,Saudi Arabia,MENA,Islam,1139956,Arabic,0.75,Portions
+PG-1018,Santal,India,S. Asia,Ethnic Religion,5780000-7819999,Santali,1.11,Unknown
+PG-1156,Shan Southern,Myanmar,South-East Asia,Buddhism,532813,Shan,1.55,None
+PG-1106,Brahui Southern,Pakistan,South Asia,Islam,"374,597",Brahui,1.33,None
+PG-1149,Tajik Western,Tajikistan,C. Asia,Islam,,Tajik,1.27,Unknown
+PG-1161,Nubian Kenuzi Plains,Egypt,N. Africa & Middle East,Islam,unknown,Kenuzi,0.06,New Testament
+PG-1204,Shan Riverine,Myanmar,Southeast Asia,Buddhism,567542,Shan,0.62,New Testament
+PG-1162,Azerbaijani South Northern,Iran,MENA,Islam,2943075,Azerbaijani,1.98,Portions
+PG-1150,Arab Egyptian Highland,Egypt,N. Africa & Middle East,Islam,5368662-7263483,Arabic,1.79,Complete Bible
+PG-1092,Javanese Pesisir Southern,Indonesia,Southeast Asia,Islam,1124085,Javanese,1.92,New Testament
+PG-1195,Bhil Garasia Western,India,S. Asia,Hinduism,,Garasia,1.78,New Testament
+PG-1220,Uyghur Central,China,East Asia,Islam,826729-1118516,Uyghur,0.37,Unknown
+PG-1010,Sindhi,Pakistan,Southern Asia,Islam,"34,000,000",Sindhi,0.81,Complete Bible
+PG-1115,Maasai Riverine,Tanzania,SSA,Ethnic Religion,200453,Maa,1.63,Complete Bible
+PG-1101,Vietnamese Plains,Vietnam,Southeast Asia,Buddhism,4342143,Vietnamese,0.94,None
+PG-1114,Sindhi Eastern,Pakistan,Southern Asia,Islam,unknown,Sindhi,1.82,Unknown
+PG-1033,Maguindanao,Philippines,South-East Asia,Islam,1400000,Maguindanao,0.92,Unknown
+PG-1099,Baloch Southern,Pakistan,S. Asia,Islam,1154628,Balochi,1.42,Unknown
+PG-1199,Khmer Coastal,Cambodia,Southeast Asia,Buddhism,691454-935497,Khmer,1.40,Unknown
+PG-1124,Tausug Highland,Philippines,South-East Asia,Islam,"146,034",Tausug,1.17,Portions
+PG-1192,Somali Darod Urban,Somalia,Sub-Saharan Africa,Islam,"372,644",Somali,1.63,Portions
+PG-1119,Shan Western,Myanmar,South-East Asia,Buddhism,"851,110",Shan,0.12,New Testament
+PG-1207,Maguindanao Coastal,Philippines,Southeast Asia,Islam,209417,Maguindanao,1.63,Unknown
+PG-1217,Persian Plains,Iran,MENA,Islam,3296775,Farsi,0.97,Unknown
+PG-1027,Cham Western,Cambodia,SE Asia,Islam,280000,Cham; Arabic,0.23,Complete Bible
+PG-1080,Uygur,China,East Asia,Islam,9860000-13339999,Uyghur,0.62,New Testament
+PG-1127,Tibetan Amdo Diaspora,China,East Asia,Buddhism,46127,Amdo Tibetan; English,1.80,New Testament
+PG-1057,Tuareg Air,Niger,SSA,Islam,240000,Tamajaq,0.44,New Testament
+PG-1145,Pashtun Durrani Highland,Afghanistan,Southern Asia,Islam,unknown,Pashto,0.47,Unknown
+PG-1152,Songhai Koyra Northern,Mali,Sub-Saharan Africa,Islam,69016,Koyra Chiini,1.20,Complete Bible
+PG-1017,Yadav,India,Southern Asia,Hinduism,44200000-59799999,Hindi,0.98,None
+PG-1181,Hui Western,China,E. Asia,Islam,unknown,Mandarin; Russian,1.11,New Testament
+PG-1212,Mongol Khalkha Diaspora,Mongolia,East Asia,Buddhism,"250,537",Mongolian,1.59,None
+PG-1157,Kazakh Northern,Kazakhstan,C. Asia,Islam,,Kazakh,1.06,None
+PG-1004,Zhuang Northern,China,East Asia,Ethnic Religion,9200000,Zhuang,1.35,Complete Bible
+PG-1214,Fulani Sokoto Southern,Nigeria,"Africa, Sub-Saharan",Islam,147760,Fulfulde,0.68,None
+PG-1073,Jahanka,Senegal,Sub-Saharan Africa,Islam,"8,400",Jahanka,0.30,New Testament
+PG-1012,Nuristani,Afghanistan,South Asia,Islam,,Kamkata-viri,0.81,None
+PG-1133,Brahui Southern,Pakistan,S. Asia,Islam,unknown,Brahui; French,1.27,Portions
+PG-1047,Arab Najdi,Saudi Arabia,N. Africa & Middle East,Islam,"9,800,000",Arabic,0.18,None
+PG-1178,Magar Central,Nepal,South Asia,Buddhism,unknown,Magar,1.88,Portions
+PG-1155,Beja Bedawi Southern,Sudan,SSA,Islam,"238,339",Bedawiyet; Arabic,1.98,Unknown
+PG-1042,Turkmen,Turkmenistan,C. Asia,Islam,unknown,Turkmen,0.66,Unknown
+PG-1105,Newar Lowland,Nepal,South Asia,Hinduism,"108,482",Newari,0.37,Portions
+PG-1109,Kazakh Urban,Kazakhstan,C. Asia,Islam,202380,Kazakh,0.51,New Testament
+PG-1087,Madurese Eastern,Indonesia,Southeast Asia,Islam,140506-190097,Madurese,1.70,Portions
+PG-1098,Fulani Sokoto Riverine,Nigeria,"Africa, Sub-Saharan",Islam,"629,165",Fulfulde,0.45,Portions
+PG-1164,Uzbek Central,Uzbekistan,C. Asia,Islam,1679963,Uzbek,1.89,Complete Bible
+PG-1051,Azerbaijani South,Iran,MENA,Islam,12750000-17250000,Azerbaijani; Arabic,0.22,Unknown
+PG-1135,Karakalpak Highland,Uzbekistan,C. Asia,Islam,,Karakalpak,0.55,New Testament
+PG-1206,Maasai Central,Tanzania,Sub-Saharan Africa,Ethnic Religion,52123,Maa,1.92,Unknown
+PG-1056,Nubian Kenuzi,Egypt,Middle East & North Africa,Islam,310000,Kenuzi,0.25,None
+PG-1187,Afar Western,Ethiopia,Sub-Saharan Africa,Islam,253316,Afar,0.29,Portions
+PG-1029,Sundanese,Indonesia,South-East Asia,Islam,"36,000,000",Sundanese,0.72,None
+PG-1121,Zhuang Northern Coastal,China,E. Asia,Ethnic Religion,979876,Zhuang,1.88,Complete Bible
+PG-1219,Sindhi Northern,Pakistan,Southern Asia,Islam,2125886,Sindhi,0.11,Unknown
+PG-1036,Uzbek,Uzbekistan,Central Asia,Islam,unknown,Uzbek,0.33,Complete Bible
+PG-1169,Tuareg Air Lowland,Niger,Sub-Saharan Africa,Islam,,Tamajaq,1.40,New Testament
+PG-1096,Arab Egyptian Southern,Egypt,MENA,Islam,,Arabic,0.44,Unknown
+PG-1037,Karakalpak,Uzbekistan,Central Asia,Islam,unknown,Karakalpak,0.90,Complete Bible
+PG-1173,Tausug Coastal,Philippines,South-East Asia,Islam,116072,Tausug,1.00,None
+PG-1050,Persian,Iran,MENA,Islam,unknown,Farsi,1.18,Portions
+PG-1170,Hmong Njua Plains,Laos,South-East Asia,Ethnic Religion,29754,Hmong Njua,1.60,Complete Bible
+PG-1011,Brahui,Pakistan,S. Asia,Islam,,Brahui,0.51,Portions
+PG-1093,Berber Rif Eastern,Morocco,N. Africa & Middle East,Islam,"426,548",Tarifit,0.68,Unknown
+PG-1022,Rohingya,Myanmar,Southeast Asia,Islam,1800000,Rohingya,0.09,Unknown
+PG-1118,Tharu Central,Nepal,South Asia,Hinduism,,Tharu,1.64,Unknown
+PG-1013,Hazara,Afghanistan,Southern Asia,Islam,unknown,Dari,0.31,New Testament
+PG-1014,Pashtun Durrani,Afghanistan,South Asia,Islam,"5,600,000",Pashto,0.72,None
+PG-1218,Santal Diaspora,India,South Asia,Ethnic Religion,1153778-1560995,Santali,1.11,New Testament
+PG-1177,Malay Kelantan Central,Malaysia,South-East Asia,Islam,,Malay,1.07,New Testament
+PG-1041,Kyrgyz,Kyrgyzstan,C. Asia,Islam,unknown,Kyrgyz; Arabic,0.61,New Testament
+PG-1090,Sundanese Southern,Indonesia,South-East Asia,Islam,460242,Sundanese,1.99,Portions
+PG-1065,Afar,Ethiopia,SSA,Islam,1900000,Afar,1.01,Portions
+PG-1055,Arab Egyptian,Egypt,MENA,Islam,,Arabic,0.63,Portions
+PG-1002,Hui,China,E. Asia,Islam,,Mandarin,0.27,Portions
+PG-1102,Somali Darod Western,Somalia,Sub-Saharan Africa,Islam,617234,Somali,0.13,Portions
+PG-1058,Fulani Sokoto,Nigeria,Sub-Saharan Africa,Islam,,Fulfulde,0.98,None
+PG-1168,Bhil Garasia Plains,India,S. Asia,Hinduism,153788,Garasia,1.92,Unknown
+PG-1063,Wolof,Senegal,SSA,Islam,unknown,Wolof; Arabic,0.16,New Testament
+PG-1032,Malay Kelantan,Malaysia,SE Asia,Islam,"1,800,000",Malay,1.31,Unknown
+PG-1176,Arab Najdi Coastal,Saudi Arabia,MENA,Islam,"1,603,870",Arabic,1.06,New Testament
+PG-1040,Kazakh,Kazakhstan,Central Asia,Islam,12000000,Kazakh,0.57,Unknown
+PG-1159,Magar Diaspora,Nepal,South Asia,Buddhism,"252,941",Magar,0.49,New Testament
+PG-1190,Korean Highland,North Korea,East Asia,Non-religious,4839148,Korean,0.77,Portions
+PG-1095,Shan Eastern,Myanmar,South-East Asia,Buddhism,123772,Shan,1.22,New Testament
+PG-1026,Khmer,Cambodia,SE Asia,Buddhism,14000000,Khmer; Arabic,0.10,Portions
+PG-1137,Sundanese Eastern,Indonesia,South-East Asia,Islam,6651969,Sundanese; French,1.63,Complete Bible
+PG-1210,Hausa Central,Nigeria,SSA,Islam,"7,590,440",Hausa,0.02,Portions
+PG-1053,Berber Kabyle,Algeria,Middle East & North Africa,Islam,4760000-6439999,Kabyle,0.03,New Testament
+PG-1049,Arab Yemeni,Yemen,Middle East,Islam,"21,000,000",Arabic,0.21,Unknown
+PG-1132,Hazara Highland,Afghanistan,Southern Asia,Islam,"373,530",Dari,1.48,Complete Bible
+PG-1189,Vietnamese Highland,Vietnam,South-East Asia,Buddhism,,Vietnamese,1.85,New Testament
+PG-1139,Madurese Coastal,Indonesia,Southeast Asia,Islam,608849,Madurese; Russian,0.22,Portions
+PG-1216,Comorian Ngazidja Western,Comoros,Sub-Saharan Africa,Islam,"40,372",Comorian,1.81,New Testament
+PG-1044,Zaza,Turkey,N. Africa & Middle East,Islam,1445000-1954999,Zazaki,1.05,None
+PG-1031,Acehnese,Indonesia,SE Asia,Islam,3900000,Aceh,0.97,Complete Bible
+PG-1034,Tausug,Philippines,Southeast Asia,Islam,"1,200,000",Tausug,1.36,None
+PG-1209,Javanese Pesisir Diaspora,Indonesia,South-East Asia,Islam,"1,204,788",Javanese,0.45,Portions
+PG-1023,Rakhine,Myanmar,SE Asia,Buddhism,"2,100,000",Rakhine; Arabic,1.35,New Testament
+PG-1175,Bambara Eastern,Mali,SSA,Islam,"363,049",Bambara,0.29,Unknown
+PG-1078,Hoti,Indonesia,Southeast Asia,Ethnic Religion,"1,200",Hoti,0.08,Unknown
+PG-1009,Baloch,Pakistan,South Asia,Islam,6290000-8510000,Balochi,0.01,None
+PG-1083,Fulbe Sokoto,Nigeria,Sub-Saharan Africa,Islam,"3,450,000",Fulfulde,0.00,New Testament
+PG-1136,Arab Egyptian Western,Egypt,MENA,Islam,10181382,Arabic,0.83,Portions
+PG-1144,Newar Diaspora,Nepal,South Asia,Hinduism,233899,Newari,0.68,Unknown
+PG-1103,Gilaki Northern,Iran,Middle East & North Africa,Islam,515134,Gilaki; Russian,1.10,Complete Bible
+PG-1059,Hausa,Nigeria,"Africa, Sub-Saharan",Islam,"42,000,000",Hausa,0.71,New Testament
+PG-1067,Beja Bedawi,Sudan,SSA,Islam,"2,200,000",Bedawiyet; Arabic,1.24,Complete Bible
+PG-1184,Yi Nuosu Eastern,China,East Asia,Ethnic Religion,"54,362",Nuosu,1.72,Complete Bible
+PG-1061,Songhai Koyra,Mali,SSA,Islam,480000,Koyra Chiini,0.42,Complete Bible
+PG-1143,Afar Western,Ethiopia,SSA,Islam,213109-288324,Afar; English,0.34,New Testament
+PG-1148,Berber Kabyle Southern,Algeria,N. Africa & Middle East,Islam,"401,790",Kabyle,1.97,Complete Bible
+PG-1171,Berber Rif Urban,Morocco,MENA,Islam,529479-716354,Tarifit,1.07,None
+PG-1045,Turk Anatolian,Turkey,Middle East,Islam,58000000,Turkish; Arabic,0.27,None
+PG-1060,Kanuri Yerwa,Nigeria,Sub-Saharan Africa,Islam,4700000,Kanuri,1.00,Complete Bible
+PG-1116,Arab Egyptian Lowland,Egypt,Middle East & North Africa,Islam,12040565,Arabic,1.32,New Testament
+PG-1158,Afar Lowland,Ethiopia,"Africa, Sub-Saharan",Islam,312284,Afar; Arabic,1.64,Portions
+PG-1185,Wolof Lowland,Senegal,Sub-Saharan Africa,Islam,943497,Wolof,1.07,Unknown
+PG-1205,Santal Lowland,India,South Asia,Ethnic Religion,"378,860",Santali,1.42,New Testament
+PG-1191,Zaza Lowland,Turkey,Middle East,Islam,223730,Zazaki,1.18,New Testament
+PG-1068,Zaghawa,Chad,"Africa, Sub-Saharan",Islam,380000,Zaghawa,1.23,Portions
+PG-1016,Rajput Chauhan,India,S. Asia,Hinduism,1900000,Hindi,1.02,Portions
+PG-1141,Tharu Lowland,Nepal,South Asia,Hinduism,174215-235702,Tharu,1.42,None
+PG-1151,Tuareg Air Coastal,Niger,Sub-Saharan Africa,Islam,11850,Tamajaq,1.80,None
+PG-1111,Comorian Ngazidja Central,Comoros,SSA,Islam,47366,Comorian,1.87,Portions
+PG-1094,Tharu Riverine,Nepal,South Asia,Hinduism,62505,Tharu,1.82,Complete Bible
+PG-1120,Kurd Highland,Turkey,N. Africa & Middle East,Islam,"1,091,131",Kurmanji,0.48,New Testament
+PG-1163,Magar Northern,Nepal,Southern Asia,Buddhism,"219,738",Magar,0.20,New Testament
+PG-1088,Uzbek Northern,Uzbekistan,Central Asia,Islam,5084430,Uzbek,1.67,None
+PG-1147,Laz Eastern,Turkey,N. Africa & Middle East,Islam,,Laz; Russian,0.70,Portions
+PG-1025,Hmong Njua,Laos,Southeast Asia,Ethnic Religion,460000,Hmong Njua,0.71,Complete Bible
+PG-1193,Rohingya Diaspora,Myanmar,South-East Asia,Islam,,Rohingya,1.88,Unknown
+PG-1007,Korean,North Korea,E. Asia,Non-religious,"25,000,000",Korean,0.38,None
+PG-1117,Japanese Central,Japan,East Asia,Buddhism,,Japanese,0.59,New Testament
+PG-1015,Bhil Garasia,India,S. Asia,Hinduism,"780,000",Garasia,0.58,Portions
+PG-1167,Khmer Central,Cambodia,Southeast Asia,Buddhism,,Khmer; French,0.18,Unknown
+PG-1213,Azerbaijani South Eastern,Iran,N. Africa & Middle East,Islam,unknown,Azerbaijani,1.85,Complete Bible
+PG-1091,Fulani Sokoto Diaspora,Nigeria,Sub-Saharan Africa,Islam,"396,551",Fulfulde; Arabic,0.45,Complete Bible
+PG-1179,Arab Yemeni Eastern,Yemen,N. Africa & Middle East,Islam,999548-1352329,Arabic,0.54,New Testament
+PG-1104,Pamiri Shughni Central,Tajikistan,Central Asia,Islam,unknown,Shughni,0.40,New Testament
+PG-1126,Korean Central,North Korea,E. Asia,Non-religious,unknown,Korean,0.54,Unknown
+PG-1021,Magar,Nepal,S. Asia,Buddhism,1600000,Magar,0.58,None
+PG-1048,Arab Hijazi,Saudi Arabia,Middle East & North Africa,Islam,unknown,Arabic,0.99,Complete Bible
+PG-1198,Azerbaijani South Lowland,Iran,MENA,Islam,"2,700,089",Azerbaijani,0.04,Unknown
+PG-1146,Persian Plains,Iran,MENA,Islam,756437,Farsi,1.02,New Testament
+PG-1138,Newar Plains,Nepal,S. Asia,Hinduism,"41,640",Newari,0.67,Complete Bible
+PG-1215,Laz Northern,Turkey,N. Africa & Middle East,Islam,"1,307",Laz,0.26,Complete Bible
+PG-1062,Bambara,Mali,SSA,Islam,"4,600,000",Bambara; Arabic,0.60,None
+PG-1069,Maasai,Tanzania,"Africa, Sub-Saharan",Ethnic Religion,,Maa,1.11,New Testament
+PG-1089,Tibetan Amdo Central,China,E. Asia,Buddhism,"52,530",Amdo Tibetan,0.19,None
+PG-1028,Javanese Pesisir,Indonesia,South-East Asia,Islam,"8,300,000",Javanese,1.30,None
+PG-1054,Berber Rif,Morocco,Middle East,Islam,,Tarifit,0.84,Complete Bible
+PG-1165,Santal Diaspora,India,S. Asia,Ethnic Religion,"656,780",Santali,1.18,None
+PG-1203,Nubian Kenuzi Lowland,Egypt,Middle East,Islam,42125,Kenuzi,0.48,Unknown
+PG-1075,Mlabri,Thailand,South-East Asia,Ethnic Religion,400,Mlabri,0.49,None
+PG-1200,Vietnamese Eastern,Vietnam,South-East Asia,Buddhism,"8,429,433",Vietnamese,1.37,New Testament
+PG-1153,Yadav Coastal,India,Southern Asia,Hinduism,"10,105,345",Hindi; English,0.25,Complete Bible
+PG-1197,Sundanese Diaspora,Indonesia,South-East Asia,Islam,"2,839,941",Sundanese,1.93,Complete Bible
+PG-1188,Shan Southern,Myanmar,South-East Asia,Buddhism,unknown,Shan,1.45,Complete Bible
+PG-1005,Yi Nuosu,China,E. Asia,Ethnic Religion,unknown,Nuosu,0.78,Portions
+PG-1030,Madurese,Indonesia,SE Asia,Islam,"7,200,000",Madurese,0.68,New Testament
+PG-1211,Maguindanao Coastal,Philippines,Southeast Asia,Islam,154782,Maguindanao,1.23,None
+PG-1070,Comorian Ngazidja,Comoros,"Africa, Sub-Saharan",Islam,380000,Comorian,1.17,Portions
+PG-1123,Comorian Ngazidja Southern,Comoros,Sub-Saharan Africa,Islam,69349,Comorian,1.53,Complete Bible
+PG-1019,Newar,Nepal,Southern Asia,Hinduism,1300000,Newari,0.83,Unknown
+PG-1064,Somali Darod,Somalia,"Africa, Sub-Saharan",Islam,"4,100,000",Somali,0.75,Unknown
+PG-1077,Kaike,Nepal,South Asia,Buddhism,"2,100",Kaike,0.21,New Testament
+PG-1134,Santal Urban,India,South Asia,Ethnic Religion,1051946,Santali,0.14,Complete Bible
+PG-1001,Uyghur,China,East Asia,Islam,"11,500,000",Uyghur,0.26,Portions
+PG-1082,Baluch,Pakistan,S. Asia,Islam,7350000,Balochi,0.84,Portions
