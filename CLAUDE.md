@@ -144,7 +144,13 @@ If a region value is not in this table, keep it as-is and log a warning; do not 
   own dimension is counted as if that dimension were not filtered (standard
   "self-excluding" facet behaviour). This is what the check table's "Facet counts
   with religion = Islam selected" section expects.
-- Filters within one dimension are OR; across dimensions are AND.
+- Filters within one dimension are OR; across dimensions are AND. EXCEPTION: the
+  `need` dimension is AND within itself — selecting two categories returns only the
+  groups tagged with both, because the mobilizer has several things to send at once.
+- The `need` facet is therefore NOT self-excluding: each count is "what you would get
+  if you added this option to the current selection". Options that would yield zero are
+  disabled in the UI. Every other facet keeps the self-excluding behaviour the check
+  table expects.
 - When merging, keep the first record's field values. Do not try to "combine" fields
   from later duplicates, except to record their ids and original names for display.
 - Population bracket boundaries: a group with exactly 10,000 is `10k-100k`;

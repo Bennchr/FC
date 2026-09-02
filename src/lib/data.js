@@ -307,6 +307,7 @@ export function emptyFilters() {
 
 // Does one group satisfy one dimension's selection? RULE: within a dimension
 // options are OR'd; for language, any of the group's languages may match.
+// EXCEPTION: `need` is AND (see the case below and the Interpretation notes).
 function matchesDimension(group, dim, selected) {
   if (!selected || selected.length === 0) return true;
   switch (dim) {
@@ -323,8 +324,9 @@ function matchesDimension(group, dim, selected) {
     case 'country':
       return selected.includes(group.country);
     case 'need':
-      // Like language: a group matches if any of its needs tags match.
-      return group.needs.some((n) => selected.includes(n));
+      // AND, unlike every other dimension: the mobilizer has several things to
+      // send at once and wants the groups that need ALL of them.
+      return selected.every((n) => group.needs.includes(n));
     default:
       return true;
   }
@@ -366,6 +368,10 @@ function facetValues(group, dim) {
 
 // RULE (Interpretation notes): facet counts are over the filtered set, except
 // the facet's own dimension is counted as if it were not filtered.
+// EXCEPTION: `need` is an AND dimension, so it is NOT self-excluding. Counting
+// over the fully filtered set makes each number "what you get if you add this
+// option": an unselected category counts the groups that would survive adding
+// it, and a selected one counts the current result set.
 // Returns { region: {value: n}, religion: {...}, ... }.
 export function facetCounts(groups, filters, query = '') {
   const counts = {};
@@ -373,7 +379,8 @@ export function facetCounts(groups, filters, query = '') {
     const tally = {};
     for (const g of groups) {
       if (!matchesSearch(g, query)) continue;
-      if (!matchesFilters(g, filters, dim)) continue;
+      const ignore = dim === 'need' ? null : dim; // need is AND: count conjunctively
+      if (!matchesFilters(g, filters, ignore)) continue;
       for (const v of facetValues(g, dim)) tally[v] = (tally[v] ?? 0) + 1;
     }
     counts[dim] = tally;

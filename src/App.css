@@ -612,3 +612,13 @@ h3 {
   font-size: 0.78rem;
   color: #555;
 }
+
+/* A need option that would empty the list (AND filter) is not clickable. */
+.facet-option-disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.facet-option-disabled .facet-count {
+  color: #bbb;
+}

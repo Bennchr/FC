@@ -88,17 +88,24 @@ function FacetGroup({ dim, options, counts, selected, onToggle }) {
     <fieldset className="facet">
       <legend>{DIMENSION_LABELS[dim]}</legend>
       <div className="facet-options">
-        {options.map((opt) => (
-          <label key={opt} className="facet-option">
-            <input
-              type="checkbox"
-              checked={selected.includes(opt)}
-              onChange={() => onToggle(dim, opt)}
-            />
-            <span className="facet-label">{opt}</span>
-            <span className="facet-count">{counts[opt] ?? 0}</span>
-          </label>
-        ))}
+        {options.map((opt) => {
+          // Need is an AND filter, so a zero count is a dead end: ticking it
+          // would empty the list. Grey those out rather than let the user land
+          // on "no groups match".
+          const disabled = dim === 'need' && !selected.includes(opt) && (counts[opt] ?? 0) === 0;
+          return (
+            <label key={opt} className={disabled ? 'facet-option facet-option-disabled' : 'facet-option'}>
+              <input
+                type="checkbox"
+                checked={selected.includes(opt)}
+                disabled={disabled}
+                onChange={() => onToggle(dim, opt)}
+              />
+              <span className="facet-label">{opt}</span>
+              <span className="facet-count">{counts[opt] ?? 0}</span>
+            </label>
+          );
+        })}
       </div>
     </fieldset>
   );
@@ -272,8 +279,12 @@ export default function App() {
   // Friendlier results heading when exactly one country or region is selected.
   const onlyDim = (dim) =>
     filters[dim].length === 1 && !query && FILTER_DIMENSIONS.every((d) => d === dim || filters[d].length === 0);
+  // Same, but for a dimension that may carry several values (need is AND).
+  const onlyDimAny = (dim) =>
+    filters[dim].length > 0 && !query && FILTER_DIMENSIONS.every((d) => d === dim || filters[d].length === 0);
   let heading = `Showing ${visible.length} of ${groups.length} groups`;
-  if (onlyDim('need')) heading = `Showing ${visible.length} groups that need ${filters.need[0]}`;
+  // Need is AND, so list every selected category joined with "and".
+  if (onlyDimAny('need')) heading = `Showing ${visible.length} groups that need ${filters.need.join(' and ')}`;
   else if (onlyDim('country')) heading = `Showing ${visible.length} groups in ${filters.country[0]}`;
   else if (onlyDim('region')) heading = `Showing ${visible.length} groups in ${filters.region[0]}`;
 

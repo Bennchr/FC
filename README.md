@@ -12,7 +12,8 @@ See `CLAUDE.md` for the spec, rules and correctness table.
 
 ## Running log
 
-**Hours spent:** ~3.5h. +0.75h for needs categories, tagging, the need filter and the
+**Hours spent:** ~3.75h. +0.25h switching the need filter from OR to AND (counts became
+conjunctive; zero options are disabled). +0.75h for needs categories, tagging, the need filter and the
 "I have… where should they go?" picker (scope item 10). +0.75h for tabs (Overview / Groups / Shortlist), the group detail
 page and the placeholder needs section (scope item 9). +0.75h for the at-a-glance overview (scope item 8: country filter,
 summary functions, `src/Overview.jsx`, six overview sanity rows in the check script).
@@ -39,5 +40,5 @@ rows; would not scale to a large file.
 keep dependencies at zero. It handles quoted fields, `""` escapes and CRLF, which is all
 this file needs, but it is not a general-purpose CSV parser.
 
-**Check cases failing:** none. 17/17 table cases, 6/6 facet counts and 9/9 overview and
-tagging sanity rows pass (`node scripts/check.mjs`, 32 passed, 0 failed). Region warnings logged: 0.
+**Check cases failing:** none. 17/17 table cases, 6/6 facet counts and 12/12 overview,
+tagging and need-AND sanity rows pass (`node scripts/check.mjs`, 35 passed, 0 failed). Region warnings logged: 0.

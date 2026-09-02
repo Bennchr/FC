@@ -36,6 +36,10 @@ function describe(g) {
 
 const dupGroups = groups.filter((g) => g.mergedFrom.length > 1);
 
+// How many groups carry ALL of these need tags (the AND rule), counted straight
+// from the records so it is independent of the filtering code under test.
+const withAll = (cats) => groups.filter((g) => cats.every((c) => g.needs.includes(c))).length;
+
 const cases = [
   { n: 1, name: 'Total rows in the raw file', expected: 220, rows: rawRows, actual: rawRows.length },
   { n: 2, name: 'Distinct groups after merging duplicate spellings', expected: 199, rows: groups, actual: groups.length },
@@ -122,6 +126,11 @@ const sanity = [
   { name: 'Needs tags: every group has 2 to 4 tags', expected: groups.length, actual: groups.filter((g) => g.needs.length >= 2 && g.needs.length <= 4).length },
   { name: 'Needs tags: deterministic (same result when recomputed)', expected: groups.length, actual: groups.filter((g) => needsTags(g).map((t) => t.category).join('|') === g.needs.join('|')).length },
   { name: 'Needs tags: every tag is a known category', expected: groups.length, actual: groups.filter((g) => g.needs.every((n) => NEED_CATEGORIES.includes(n))).length },
+  // The need dimension is AND. Expected values are computed straight from
+  // g.needs, independently of applyFilters, so these really test the wiring.
+  { name: 'Need = Church planters AND Bible translation', expected: withAll(['Church planters', 'Bible translation']), actual: query({ need: ['Church planters', 'Bible translation'] }).length },
+  { name: 'Need AND is no wider than either category alone', expected: true, actual: query({ need: ['Church planters', 'Bible translation'] }).length <= Math.min(withAll(['Church planters']), withAll(['Bible translation'])) },
+  { name: 'Need = Theology teachers (single value unchanged)', expected: withAll(['Theology teachers']), actual: query({ need: ['Theology teachers'] }).length },
 ];
 console.log('\nOVERVIEW SANITY (summaries must add back up to the table above)\n');
 console.log(`${pad('Check', 62)} ${pad('Expected', 12)} ${pad('Actual', 12)} Result`);
@@ -141,6 +150,17 @@ for (const cat of NEED_CATEGORIES) {
   const tagged = groups.flatMap((g) => g.needsDetail.filter((t) => t.category === cat));
   const fromData = tagged.filter((t) => !t.placeholder).length;
   console.log(`${pad(cat, 34)} ${pad(tagged.length, 8)} ${pad(fromData, 10)} ${tagged.length - fromData}`);
+}
+
+// Informational: which pairs are reachable now that need is an AND filter.
+const derived = ['Church planters', 'Bible translation', 'Discipleship materials', 'Theology teachers'];
+console.log('\nNEED PAIRS under AND (informational; both tags required)\n');
+console.log(`${pad('Pair', 52)} Groups`);
+console.log('-'.repeat(60));
+for (let i = 0; i < derived.length; i++) {
+  for (let j = i + 1; j < derived.length; j++) {
+    console.log(`${pad(`${derived[i]} + ${derived[j]}`, 52)} ${withAll([derived[i], derived[j]])}`);
+  }
 }
 
 console.log(`\nSUMMARY: ${pass} passed, ${fail} failed`);
