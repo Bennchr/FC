@@ -127,6 +127,10 @@ If a region value is not in this table, keep it as-is and log a warning; do not 
   from later duplicates, except to record their ids and original names for display.
 - Population bracket boundaries: a group with exactly 10,000 is `10k-100k`;
   exactly 1,000,000 is `1M+`.
+- Region rule row `SSA, Sub-Saharan Africa, Africa, Sub-Saharan`: the CSV contains the
+  literal value `Africa, Sub-Saharan` (quoted, 8 rows). We map `Africa`, `Sub-Saharan`
+  and `Africa, Sub-Saharan` all to Sub-Saharan Africa.
+- The CSV has CRLF line endings; the parser strips `\r` and trims every field.
 
 ## CORRECTNESS TABLE (from A_Check_Answers — counts are over merged groups unless stated)
 
